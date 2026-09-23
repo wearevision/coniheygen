@@ -1,0 +1,702 @@
+<title>Tu doble digital</title>
+<meta name="description" content="Curso interactivo para que Coni del Rosario cree su avatar personal en HeyGen con su voz de ElevenLabs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#FBF6F8; --surface:#FFFFFF; --sunken:#F5ECF0; --ink:#2B1830; --muted:#76647B; --line:#EADDE4;
+  --accent:#B3285F; --accent-ink:#FFFFFF; --accent-soft:#F8E3EC;
+  --ok:#2F7A6D; --ok-soft:#DCEFEA; --warn:#9A5B0E; --warn-soft:#FBEBD5;
+  --display:"Young Serif", Georgia, "Times New Roman", serif;
+  --body:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#17101B; --surface:#221828; --sunken:#1C1321; --ink:#F4EAF1; --muted:#B3A1B5; --line:#3A2B40;
+    --accent:#F07AA6; --accent-ink:#2A0F1B; --accent-soft:#3D1E2E;
+    --ok:#72C7B6; --ok-soft:#183330; --warn:#E8A758; --warn-soft:#3A2913;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#17101B; --surface:#221828; --sunken:#1C1321; --ink:#F4EAF1; --muted:#B3A1B5; --line:#3A2B40;
+  --accent:#F07AA6; --accent-ink:#2A0F1B; --accent-soft:#3D1E2E;
+  --ok:#72C7B6; --ok-soft:#183330; --warn:#E8A758; --warn-soft:#3A2913;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.15;text-wrap:balance;margin:0}
+p{margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+/* Cabecera */
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;padding-block:28px 20px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.top h1{font-size:clamp(30px,5vw,44px);margin-top:6px}
+.top h1 em{font-style:normal;color:var(--accent)}
+.progress{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
+.bar{width:160px;height:8px;border-radius:99px;background:var(--sunken);overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .4s ease}
+.progress b{font-family:var(--mono);color:var(--ink);font-weight:600}
+
+/* Layout */
+.grid{display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px;margin-top:28px;align-items:start}
+nav.sessions{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);display:flex;flex-direction:column;gap:4px}
+.sess-btn{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:center;text-align:left;width:100%;padding:10px 12px;border-radius:10px;border:1px solid transparent;background:none;color:var(--ink);font:inherit;font-size:15px;cursor:pointer}
+.sess-btn:hover{background:var(--sunken)}
+.sess-btn[aria-current="true"]{background:var(--surface);border-color:var(--line);box-shadow:0 1px 2px rgb(0 0 0 / .04)}
+.sess-btn .n{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-size:12px;border:1.5px solid var(--line);color:var(--muted)}
+.sess-btn[aria-current="true"] .n{border-color:var(--accent);color:var(--accent)}
+.sess-btn.done .n{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.sess-btn small{display:block;color:var(--muted);font-size:12.5px;line-height:1.3}
+
+main{min-width:0}
+.lesson{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(20px,4vw,40px)}
+.lesson-head{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.lesson-head h2{font-size:clamp(26px,4vw,36px)}
+.lede{font-size:18px;color:var(--muted);max-width:62ch}
+.lesson section{display:flex;flex-direction:column;gap:14px;margin-top:28px}
+.lesson h3{font-size:21px}
+.prose{max-width:66ch;display:flex;flex-direction:column;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+
+.analogy{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:var(--accent-soft);border-radius:12px;padding:16px 18px;max-width:70ch}
+.analogy .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);padding-top:3px}
+.note{border-left:3px solid var(--warn);background:var(--warn-soft);padding:12px 16px;border-radius:0 10px 10px 0;max-width:70ch}
+.note.ok{border-color:var(--ok);background:var(--ok-soft)}
+.note b{display:block;margin-bottom:2px}
+
+/* Checklist */
+.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.check{display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;padding:14px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:var(--surface)}
+.check:hover{border-color:var(--muted)}
+.check input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--ok)}
+.check strong{display:block;font-weight:600}
+.check span{font-size:14px;color:var(--muted)}
+.check:has(input:checked){background:var(--ok-soft);border-color:transparent}
+
+/* Ruta de clics */
+.path{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px}
+.path code{font-family:var(--mono);font-size:13px;background:var(--sunken);border:1px solid var(--line);padding:3px 8px;border-radius:6px}
+.path .sep{color:var(--muted)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;counter-reset:st}
+.steps li{counter-increment:st;display:grid;grid-template-columns:36px 1fr;gap:14px;padding-block:14px;border-top:1px solid var(--line)}
+.steps li:first-child{border-top:0}
+.steps li::before{content:counter(st);width:32px;height:32px;border-radius:50%;background:var(--sunken);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:13px;color:var(--accent)}
+.steps li div{display:flex;flex-direction:column;gap:6px}
+
+/* Diagrama y encuadre */
+.figure{background:var(--sunken);border:1px solid var(--line);border-radius:12px;padding:16px;overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto;min-width:520px}
+.figure.small svg{min-width:0;max-width:520px;margin:0 auto}
+.caption{font-size:13.5px;color:var(--muted)}
+
+/* Teleprompter */
+.prompter{background:#120B15;color:#F6EEF3;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.prompter-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 14px;background:#1E1323;border-bottom:1px solid #3A2B40}
+.prompter-bar .timer{font-family:var(--mono);font-size:22px;font-weight:600;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.prompter-bar .timer.go{color:#72C7B6}
+.prompter-bar label{font-size:13px;color:#C9B7CC;display:flex;align-items:center;gap:8px}
+.prompter-view{height:320px;overflow-y:auto;padding:24px clamp(16px,4vw,40px) 200px;font-size:clamp(20px,2.6vw,26px);line-height:1.55;scroll-behavior:auto}
+.prompter-view p{margin-bottom:.9em}
+.pause{display:inline-block;font-family:var(--mono);font-size:.55em;letter-spacing:.06em;text-transform:uppercase;color:#F07AA6;border:1px solid #F07AA6;border-radius:99px;padding:1px 8px;vertical-align:middle;margin-inline:4px}
+.prompter:fullscreen .prompter-view{height:calc(100vh - 64px);font-size:40px}
+
+/* Botones */
+.btn{font:inherit;font-weight:600;font-size:15px;border-radius:10px;padding:10px 16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.05)}
+.btn.dark{background:#2E2034;color:#F6EEF3;border-color:#4A3752}
+.btn.small{padding:6px 12px;font-size:13.5px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.lesson-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:36px;padding-top:20px;border-top:1px solid var(--line)}
+
+/* Revisor de guion */
+.editor{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px}
+textarea{width:100%;min-height:260px;font:inherit;font-size:15.5px;line-height:1.6;color:var(--ink);background:var(--sunken);border:1px solid var(--line);border-radius:12px;padding:14px;resize:vertical}
+.stats{display:flex;flex-direction:column;gap:10px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--sunken);border:1px solid var(--line);border-radius:10px;padding:10px}
+.stat b{display:block;font-family:var(--mono);font-size:20px;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted)}
+.flags{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.flags li{padding:8px 12px;border-radius:8px;background:var(--warn-soft);border-left:3px solid var(--warn)}
+.flags li.good{background:var(--ok-soft);border-color:var(--ok)}
+
+/* Diagnóstico */
+.symptoms{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:14px;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.diag{background:var(--sunken);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.diag h4{margin:0;font-size:16px}
+.diag ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+
+/* Quiz */
+.quiz{display:flex;flex-direction:column;gap:18px}
+.q{border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.q p{font-weight:600}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{text-align:left;font:inherit;font-size:15px;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.opt:hover{border-color:var(--muted)}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.opt.wrong{background:var(--warn-soft);border-color:var(--warn)}
+.feedback{font-size:14px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;z-index:10}
+
+@media (max-width:860px){
+  .grid{grid-template-columns:1fr;gap:16px}
+  nav.sessions{position:static;flex-direction:row;overflow-x:auto;padding-bottom:6px;gap:6px}
+  .sess-btn{grid-template-columns:24px auto;white-space:nowrap;width:auto;padding:8px 12px}
+  .sess-btn .n{width:24px;height:24px;font-size:11px}
+  .sess-btn small{display:none}
+  .editor{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Curso para Coni del Rosario · HeyGen + ElevenLabs</div>
+      <h1>Tu doble <em>digital</em></h1>
+    </div>
+    <div class="progress" aria-live="polite">
+      <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
+      <span><b id="doneCount">0</b> de 8 sesiones</span>
+    </div>
+  </header>
+
+  <div class="grid">
+    <nav class="sessions" id="nav" aria-label="Sesiones del curso"></nav>
+    <main id="main" tabindex="-1"></main>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<template id="s1">
+  <div class="lesson-head">
+    <div class="eyebrow">Sesión 1 · 5 min</div>
+    <h2>El mapa: qué vamos a construir</h2>
+    <p class="lede">Un avatar de HeyGen es un video tuyo que puede decir cualquier guion nuevo, con tu cara, tus gestos y tu voz, sin volver a grabarte.</p>
+  </div>
+  <div class="analogy"><span class="tag">Analogía</span><p>Piensa en una película doblada. En pantalla está la actriz, desde el estudio de doblaje llega la voz y alguien escribió el guion. Aquí las tres cosas son tuyas: <b>HeyGen</b> pone tu imagen, <b>ElevenLabs</b> pone tu voz y <b>tú</b> escribes lo que dices.</p></div>
+
+  <section>
+    <h3>Las tres piezas</h3>
+    <div class="figure">
+      <svg viewBox="0 0 640 250" role="img" aria-label="Diagrama: Rostro en HeyGen, voz en ElevenLabs y guion se combinan en un video">
+        <g font-family="Hanken Grotesk, system-ui, sans-serif">
+          <rect x="10" y="12" width="250" height="62" rx="12" style="fill:var(--surface);stroke:var(--accent);stroke-width:2"/>
+          <text x="28" y="38" font-size="16" font-weight="700" style="fill:var(--ink)">Rostro y gestos</text>
+          <text x="28" y="60" font-size="13" style="fill:var(--muted)">HeyGen · lo hacemos en este curso</text>
+          <rect x="10" y="94" width="250" height="62" rx="12" style="fill:var(--ok-soft);stroke:var(--ok);stroke-width:2"/>
+          <text x="28" y="120" font-size="16" font-weight="700" style="fill:var(--ink)">Voz</text>
+          <text x="28" y="142" font-size="13" style="fill:var(--ok)">ElevenLabs · ya está lista ✓</text>
+          <rect x="10" y="176" width="250" height="62" rx="12" style="fill:var(--surface);stroke:var(--line);stroke-width:2"/>
+          <text x="28" y="202" font-size="16" font-weight="700" style="fill:var(--ink)">Guion</text>
+          <text x="28" y="224" font-size="13" style="fill:var(--muted)">Tú · uno nuevo para cada video</text>
+          <path d="M262 43 C 340 43, 340 125, 400 125" style="fill:none;stroke:var(--muted);stroke-width:2"/>
+          <path d="M262 125 L 400 125" style="fill:none;stroke:var(--muted);stroke-width:2"/>
+          <path d="M262 207 C 340 207, 340 125, 400 125" style="fill:none;stroke:var(--muted);stroke-width:2"/>
+          <path d="M394 119 L 404 125 L 394 131 Z" style="fill:var(--muted)"/>
+          <rect x="408" y="72" width="222" height="106" rx="14" style="fill:var(--accent)"/>
+          <text x="428" y="112" font-size="20" font-family="Young Serif, Georgia, serif" style="fill:var(--accent-ink)">Video de Coni</text>
+          <text x="428" y="138" font-size="13" style="fill:var(--accent-ink)">Reels, cápsulas, charlas,</text>
+          <text x="428" y="156" font-size="13" style="fill:var(--accent-ink)">contenido de la Fundación</text>
+        </g>
+      </svg>
+    </div>
+    <p class="caption">La voz ya la tienes. Este curso arma la primera pieza y te enseña a escribir la tercera.</p>
+  </section>
+
+  <section>
+    <h3>El recorrido</h3>
+    <div class="prose">
+      <ol>
+        <li><b>Preparar el set:</b> luz, fondo, ropa y cámara (sesión 2).</li>
+        <li><b>Grabar la toma:</b> unos 2 minutos hablando a cámara, sin cortes (sesión 3).</li>
+        <li><b>Consentimiento:</b> un video corto en que autorizas tu avatar (sesión 4).</li>
+        <li><b>Crear el avatar</b> en HeyGen (sesión 5).</li>
+        <li><b>Conectar tu voz</b> de ElevenLabs (sesión 6).</li>
+        <li><b>Primer video:</b> escribir y generar (sesión 7).</li>
+        <li><b>Revisar y corregir</b> (sesión 8).</li>
+      </ol>
+      <p>Necesitas una cuenta de HeyGen con un plan que permita avatares personales, tu cuenta de ElevenLabs y un celular o cámara que grabe en 1080p.</p>
+    </div>
+  </section>
+</template>
+
+<template id="s2">
+  <div class="lesson-head">
+    <div class="eyebrow">Sesión 2 · 15 min</div>
+    <h2>Prepara el set</h2>
+    <p class="lede">Lo que grabes hoy es el molde de todos tus videos futuros. Si la toma es buena, el avatar también lo será.</p>
+  </div>
+  <div class="analogy"><span class="tag">Analogía</span><p>Es como preparar la consulta antes de una sesión: la luz, la silla, sin ruido y sin interrupciones. Así la persona (en este caso la cámara) puede concentrarse en ti.</p></div>
+
+  <section>
+    <h3>Encuadre</h3>
+    <div class="figure small">
+      <svg viewBox="0 0 480 290" role="img" aria-label="Encuadre recomendado: plano medio, ojos en el tercio superior, espacio sobre la cabeza">
+        <rect x="20" y="10" width="440" height="248" rx="6" style="fill:var(--surface);stroke:var(--ink);stroke-width:2"/>
+        <line x1="20" y1="92.7" x2="460" y2="92.7" style="stroke:var(--accent);stroke-width:1.5;stroke-dasharray:6 5"/>
+        <line x1="20" y1="175.3" x2="460" y2="175.3" style="stroke:var(--line);stroke-width:1.5;stroke-dasharray:6 5"/>
+        <line x1="166.7" y1="10" x2="166.7" y2="258" style="stroke:var(--line);stroke-width:1.5;stroke-dasharray:6 5"/>
+        <line x1="313.3" y1="10" x2="313.3" y2="258" style="stroke:var(--line);stroke-width:1.5;stroke-dasharray:6 5"/>
+        <ellipse cx="240" cy="92" rx="40" ry="50" style="fill:var(--sunken);stroke:var(--muted);stroke-width:2"/>
+        <path d="M130 258 C 140 180, 190 160, 240 158 C 290 160, 340 180, 350 258 Z" style="fill:var(--sunken);stroke:var(--muted);stroke-width:2"/>
+        <circle cx="224" cy="92" r="4" style="fill:var(--ink)"/>
+        <circle cx="256" cy="92" r="4" style="fill:var(--ink)"/>
+        <line x1="400" y1="14" x2="400" y2="40" style="stroke:var(--ok);stroke-width:2"/>
+        <text x="408" y="32" font-size="12" font-family="Hanken Grotesk, sans-serif" style="fill:var(--ok)">aire</text>
+        <text x="30" y="86" font-size="12" font-family="Hanken Grotesk, sans-serif" style="fill:var(--accent)">línea de los ojos</text>
+        <text x="20" y="282" font-size="12.5" font-family="Hanken Grotesk, sans-serif" style="fill:var(--muted)">Plano medio: de la cintura o el pecho hacia arriba, centrada, cámara a la altura de los ojos.</text>
+      </svg>
+    </div>
+    <div class="prose">
+      <p><b>¿Vertical u horizontal?</b> Si vas a usar el avatar sobre todo en Reels y TikTok, graba en vertical (9:16). Si lo usarás más en YouTube, charlas o cursos, graba en horizontal (16:9). Si no sabes, elige horizontal con plano medio: después es más fácil recortarlo.</p>
+    </div>
+  </section>
+
+  <section>
+    <h3>Lista del set</h3>
+    <p class="caption">Marca cada punto cuando lo tengas listo. Tu avance se guarda en este navegador.</p>
+    <div class="checklist" data-group="set">
+      <label class="check"><input type="checkbox" id="set-luz"><div><strong>Luz pareja en la cara</strong><span>De frente o en diagonal, suave, sin sombras duras ni ventana detrás. Una ventana frente a ti es ideal.</span></div></label>
+      <label class="check"><input type="checkbox" id="set-fondo"><div><strong>Fondo simple y quieto</strong><span>Una pared lisa o un rincón ordenado de tu consulta. Nada que se mueva: ni pantallas, ni personas, ni mascotas.</span></div></label>
+      <label class="check"><input type="checkbox" id="set-contraste"><div><strong>Contraste con el fondo</strong><span>Tu pelo, tu piel y tu ropa deben distinguirse bien del fondo.</span></div></label>
+      <label class="check"><input type="checkbox" id="set-ropa"><div><strong>Ropa sin estampados finos</strong><span>Evita rayas delgadas y cuadrillé chico, que "vibran" en cámara. Colores lisos. Ojo: esa ropa será la de tu avatar.</span></div></label>
+      <label class="check"><input type="checkbox" id="set-accesorios"><div><strong>Accesorios tranquilos</strong><span>Aros grandes o collares que suenan y se mueven confunden al modelo. Si usas lentes, cuida que no reflejen la luz.</span></div></label>
+      <label class="check"><input type="checkbox" id="set-camara"><div><strong>Cámara fija en 1080p o 4K</strong><span>Trípode o apoyo firme, a la altura de los ojos. Usa la cámara trasera del celular y nada de zoom digital.</span></div></label>
+      <label class="check"><input type="checkbox" id="set-silencio"><div><strong>Silencio</strong><span>Sin ventilador, sin tráfico, con el celular en modo avión. El audio de la toma también cuenta.</span></div></label>
+      <label class="check"><input type="checkbox" id="set-agua"><div><strong>Un vaso de agua fuera de cuadro</strong><span>Para repetir la toma sin que se te seque la voz.</span></div></label>
+    </div>
+  </section>
+</template>
+
+<template id="s3">
+  <div class="lesson-head">
+    <div class="eyebrow">Sesión 3 · 20 min</div>
+    <h2>Graba la toma</h2>
+    <p class="lede">Unos dos minutos hablando a cámara, en una sola toma continua. Abajo tienes un teleprompter con un texto escrito a tu medida.</p>
+  </div>
+  <div class="analogy"><span class="tag">Analogía</span><p>La toma es como tu firma para un calígrafo: le muestras cómo mueves la boca, cómo pestañeas y cómo gesticulas, y con eso aprende a "escribir" como tú. Mientras más natural salga, mejor te imita.</p></div>
+
+  <section>
+    <h3>Las cinco reglas de la toma</h3>
+    <div class="prose">
+      <ol>
+        <li><b>Parte en silencio:</b> 2 o 3 segundos mirando a cámara con los labios cerrados y relajados, antes de hablar.</li>
+        <li><b>Pausas con la boca cerrada:</b> entre frases, cierra los labios en reposo. Es lo que más mejora la sincronía de los labios.</li>
+        <li><b>Mira el lente:</b> no la pantalla ni tu reflejo. Si usas el teleprompter, ponlo justo bajo la cámara.</li>
+        <li><b>Gestos suaves:</b> los de una conversación tranquila, con las manos bajo el pecho. Nada de gestos grandes.</li>
+        <li><b>Sin cortes:</b> una toma continua. Si te equivocas, sigue como si nada. No edites ni juntes clips.</li>
+      </ol>
+      <p><b>¿En qué idioma?</b> En español y como hablas siempre. En esta toma HeyGen aprende tu cara y tu boca; la voz de los videos la pondrá ElevenLabs.</p>
+    </div>
+  </section>
+
+  <section>
+    <h3>Teleprompter</h3>
+    <p class="caption">Abre esta página en un computador o tablet junto a la cámara. Presiona <b>Empezar</b>: hay 3 segundos de silencio y luego el texto avanza solo. Donde veas <span class="pause" style="color:var(--accent);border-color:var(--accent)">pausa</span>, cierra los labios y respira.</p>
+    <div class="prompter" id="prompter">
+      <div class="prompter-bar">
+        <div class="row">
+          <button class="btn primary small" id="pStart" type="button">Empezar</button>
+          <button class="btn dark small" id="pReset" type="button">Reiniciar</button>
+          <button class="btn dark small" id="pFull" type="button">Pantalla completa</button>
+        </div>
+        <label for="pSpeed">Velocidad <input type="range" id="pSpeed" min="10" max="60" value="28"></label>
+        <span class="timer" id="pTimer" aria-live="off">0:00</span>
+      </div>
+      <div class="prompter-view" id="pView">
+        <p>Hola, soy Coni del Rosario. <span class="pause">pausa</span> Soy psicóloga clínica y sexóloga, y hace años que acompaño a personas y parejas a construir relaciones más sanas. <span class="pause">pausa</span></p>
+        <p>Hoy estoy grabando algo distinto: la base de mi avatar digital. <span class="pause">pausa</span> Así que voy a hablar con calma, mirando a la cámara, como si estuviera conversando contigo. <span class="pause">pausa</span></p>
+        <p>Una de las cosas que más me preguntan es cómo mantener vivo el deseo en una relación larga. <span class="pause">pausa</span> Y la respuesta no es mágica: tiene que ver con la curiosidad, con el juego y con sentirnos vistas y vistos. <span class="pause">pausa</span></p>
+        <p>Muchas veces esperamos que la otra persona adivine lo que necesitamos, y eso no pasa. <span class="pause">pausa</span> Por eso insisto tanto en conversar: decir lo que quiero, lo que no quiero, y escuchar de verdad. <span class="pause">pausa</span></p>
+        <p>En la Fundación Relaciones Inteligentes trabajamos justamente en eso: educación emocional y sexual en colegios, universidades y empresas. <span class="pause">pausa</span> Porque las relaciones sanas se aprenden, igual que se aprende a leer o a andar en bicicleta. <span class="pause">pausa</span></p>
+        <p>Y quiero dejarte una idea que me acompaña siempre: eres tu propia diosa, aunque a veces se te olvide. <span class="pause">pausa</span> Cuidarte no es egoísmo: es el punto de partida para cuidar a otros. <span class="pause">pausa</span></p>
+        <p>Ahora voy a quedarme en silencio un momento, respirar, y sonreír. <span class="pause">pausa larga</span></p>
+        <p>Gracias por estar aquí. <span class="pause">pausa</span> Nos vemos muy pronto, en el próximo video. <span class="pause">pausa</span></p>
+        <p style="color:#B3A1B5">— Fin. Quédate 3 segundos en silencio mirando a cámara antes de cortar. —</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="checklist" data-group="toma">
+      <label class="check"><input type="checkbox" id="toma-prueba"><div><strong>Hice una prueba de 20 segundos</strong><span>Revísala: ¿se ve nítida la cara? ¿se escucha limpio? ¿la luz es pareja?</span></div></label>
+      <label class="check"><input type="checkbox" id="toma-final"><div><strong>Grabé la toma completa</strong><span>Unos 2 minutos, sin cortes, en el mismo lugar y con la misma luz.</span></div></label>
+    </div>
+    <div class="note ok"><b>Consejo</b>Graba dos o tres tomas completas y súbele a HeyGen la que te guste más. No hace falta que salga perfecta: basta con que sea natural.</div>
+  </section>
+</template>
+
+<template id="s4">
+  <div class="lesson-head">
+    <div class="eyebrow">Sesión 4 · 5 min</div>
+    <h2>El video de consentimiento</h2>
+    <p class="lede">HeyGen necesita comprobar que eres tú quien autoriza crear el avatar. Son menos de 30 segundos.</p>
+  </div>
+  <div class="analogy"><span class="tag">Analogía</span><p>Es el consentimiento informado de tu consulta, pero al revés: esta vez la paciente eres tú y firmas en video que aceptas que exista tu doble.</p></div>
+  <section>
+    <h3>Cómo hacerlo bien a la primera</h3>
+    <ol class="steps">
+      <li><div><b>Graba en el mismo lugar y con la misma luz de la toma.</b><p>HeyGen compara tu cara en ambos videos. Si cambia mucho la luz o la cámara, la verificación puede fallar.</p></div></li>
+      <li><div><b>Lee el texto que te muestra HeyGen, con tu código único.</b><p>El texto y el código aparecen en pantalla durante el proceso de creación. No lo inventes ni uses uno antiguo: cada código es para un solo avatar.</p></div></li>
+      <li><div><b>Cara de frente, estable y con la voz clara.</b><p>Lee sin apuro. Si te equivocas en el código, vuelve a grabar.</p></div></li>
+      <li><div><b>Súbelo junto con la toma.</b><p>HeyGen te pide el consentimiento en el mismo flujo de creación del avatar. Si lo hace otra persona desde tu cuenta, igual lo tienes que grabar tú: HeyGen te puede mostrar un código QR para hacerlo desde tu celular.</p></div></li>
+    </ol>
+  </section>
+  <section>
+    <div class="checklist" data-group="consent">
+      <label class="check"><input type="checkbox" id="consent-ok"><div><strong>Consentimiento grabado</strong><span>Misma luz y mismo lugar que la toma, con el código correcto.</span></div></label>
+    </div>
+  </section>
+</template>
+
+<template id="s5">
+  <div class="lesson-head">
+    <div class="eyebrow">Sesión 5 · 10 min + espera</div>
+    <h2>Crea el avatar en HeyGen</h2>
+    <p class="lede">Aquí subes la toma, confirmas el consentimiento y HeyGen construye tu doble (tu "Digital Twin").</p>
+  </div>
+  <section>
+    <h3>La ruta de clics</h3>
+    <div class="path"><code>Avatars</code><span class="sep">→</span><code>Create Avatar</code><span class="sep">→</span><code>Digital Twin</code><span class="sep">→</span><code>Get Started</code></div>
+    <p class="caption">HeyGen está en inglés y cambia sus menús a menudo. Si un botón tiene otro nombre, busca el que diga "Create Avatar" o "Digital Twin".</p>
+    <ol class="steps">
+      <li><div><b>Elige cómo entregar la toma.</b><p><i>Upload</i> para subir el archivo que grabaste (recomendado), o grabar directo con la webcam o el celular.</p></div></li>
+      <li><div><b>Si te lo ofrece, elige el modelo más reciente.</b><p>En 2026 es <b>Avatar V</b>, que funciona incluso con clips cortos. Igual sube tu toma de 2 minutos: más material significa más gestos y una boca más fiel.</p></div></li>
+      <li><div><b>Detección de gestos (<i>gesture detection</i>).</b><p>Actívala si en tu toma hay gestos con las manos que quieras reutilizar. Si gesticulaste poco, puedes dejarla apagada.</p></div></li>
+      <li><div><b>Sube o graba el consentimiento.</b><p>Con el código que te muestra la pantalla, como viste en la sesión 4.</p></div></li>
+      <li><div><b>Ponle nombre.</b><p>Por ejemplo, "Coni · consulta · horizontal". Si después haces otros looks (otro fondo u otra ropa), el nombre te ayudará a distinguirlos.</p></div></li>
+      <li><div><b>Espera.</b><p>HeyGen procesa y deja el avatar en tu biblioteca de avatares. Puede tardar desde minutos hasta varias horas; te avisa cuando está listo.</p></div></li>
+    </ol>
+  </section>
+  <section>
+    <div class="note"><b>Si HeyGen rechaza el video</b>Casi siempre es por la luz, porque hay otra persona en cuadro, porque el video tiene cortes o porque el consentimiento no coincide. Revisa la sesión 8.</div>
+    <div class="checklist" data-group="avatar">
+      <label class="check"><input type="checkbox" id="avatar-subido"><div><strong>Toma y consentimiento subidos</strong><span>El avatar quedó procesándose.</span></div></label>
+      <label class="check"><input type="checkbox" id="avatar-listo"><div><strong>Mi avatar aparece en la biblioteca</strong><span>Ya lo puedes usar en un video.</span></div></label>
+    </div>
+  </section>
+</template>
+
+<template id="s6">
+  <div class="lesson-head">
+    <div class="eyebrow">Sesión 6 · 10 min</div>
+    <h2>Conecta tu voz de ElevenLabs</h2>
+    <p class="lede">Tu voz ya existe en ElevenLabs. Ahora le das a HeyGen una llave para que pueda usarla.</p>
+  </div>
+  <div class="analogy"><span class="tag">Analogía</span><p>La API key es como la llave de tu consulta que le dejas a alguien de confianza: abre solo esa puerta. Por eso no se comparte por WhatsApp ni se pega en un chat, y si se pierde, se cambia.</p></div>
+
+  <section>
+    <h3>Parte A · En ElevenLabs</h3>
+    <div class="path"><code>Perfil / Developers</code><span class="sep">→</span><code>API Keys</code><span class="sep">→</span><code>Create API Key</code></div>
+    <ol class="steps">
+      <li><div><b>Crea una llave nueva solo para HeyGen.</b><p>Nómbrala "HeyGen" para reconocerla después.</p></div></li>
+      <li><div><b>Dale los permisos necesarios.</b><p>Como mínimo, <b>Text to Speech</b> y lectura de <b>Voices</b>. Si HeyGen después dice "Invalid API key", vuelve a la llave, haz clic en el lápiz y revisa los permisos.</p></div></li>
+      <li><div><b>Cópiala entera.</b><p>ElevenLabs la muestra completa una sola vez. Pégala directo en HeyGen, no la guardes en notas ni la mandes por correo.</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h3>Parte B · En HeyGen</h3>
+    <div class="path"><code>Voices</code><span class="sep">→</span><code>Integrate 3rd Party Voice</code><span class="sep">→</span><code>Import Voice</code><span class="sep">→</span><code>ElevenLabs</code></div>
+    <ol class="steps">
+      <li><div><b>Pega la API key y confirma.</b><p>HeyGen importa las voces de tu cuenta de ElevenLabs.</p></div></li>
+      <li><div><b>Busca tu voz en la lista.</b><p>Tendrá el mismo nombre que le pusiste en ElevenLabs.</p></div></li>
+      <li><div><b>Úsala con tu avatar.</b><p>Al crear un video, selecciona tu avatar y cambia la voz por la tuya de ElevenLabs. Si tu plan lo permite, fíjala como voz por defecto del avatar para no elegirla cada vez.</p></div></li>
+      <li><div><b>Elige un modelo multilingüe.</b><p>Para español, usa un modelo multilingüe de ElevenLabs (por ejemplo <i>Multilingual v2</i> o <i>v3</i>) si HeyGen te deja elegir. Los modelos solo en inglés suenan con acento gringo.</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="note"><b>HeyGen también puede clonar tu voz desde la toma.</b>Si te ofrece usar la voz de tu video, elige de todas formas la de ElevenLabs: es la que ya afinaste.</div>
+    <div class="checklist" data-group="voz">
+      <label class="check"><input type="checkbox" id="voz-key"><div><strong>API key creada y pegada en HeyGen</strong><span>Con los permisos de Text to Speech y Voices.</span></div></label>
+      <label class="check"><input type="checkbox" id="voz-asignada"><div><strong>Mi voz aparece en HeyGen</strong><span>Y la probé con una frase corta.</span></div></label>
+    </div>
+  </section>
+</template>
+
+<template id="s7">
+  <div class="lesson-head">
+    <div class="eyebrow">Sesión 7 · 20 min</div>
+    <h2>Tu primer video</h2>
+    <p class="lede">Ya tienes el rostro y la voz. Falta lo que mejor haces: decir algo que le sirva a alguien.</p>
+  </div>
+  <div class="analogy"><span class="tag">Analogía</span><p>Escribir para un avatar se parece a escribir para la radio, no para un libro. Se escucha una sola vez, en voz alta, así que las frases son cortas, hay una idea por frase y hay respiros.</p></div>
+
+  <section>
+    <h3>En HeyGen</h3>
+    <div class="path"><code>Create Video</code><span class="sep">→</span><code>Avatar Video</code><span class="sep">→</span><span>elige tu avatar</span><span class="sep">→</span><span>pega el guion</span><span class="sep">→</span><span>elige tu voz</span><span class="sep">→</span><code>Generate</code></div>
+    <div class="prose">
+      <ul>
+        <li>Para tu primer video, <b>apunta a menos de 60 segundos.</b> Es más fácil revisar y gasta menos créditos.</li>
+        <li>Usa la función de <b>pausa</b> del editor de HeyGen entre ideas. Es el equivalente a tus silencios en consulta.</li>
+        <li>Escucha la vista previa del audio antes de generar el video completo.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h3>Revisor de guion</h3>
+    <p class="caption">Escribe o pega tu guion. Te digo cuánto dura aproximadamente y qué podría sonar raro en la voz sintética. Este texto no sale de tu navegador.</p>
+    <div class="editor">
+      <div class="row" style="flex-direction:column;align-items:stretch;gap:8px">
+        <label for="script" class="eyebrow">Guion</label>
+        <textarea id="script" spellcheck="true">¿Sabías que el deseo no desaparece, sino que se esconde?
+
+Muchas parejas me cuentan que, con los años, la chispa se apagó. Pero casi siempre lo que pasó es otra cosa: dejamos de mirarnos con curiosidad.
+
+Hoy te propongo un ejercicio simple. Esta semana, pregúntale a tu pareja algo que nunca le hayas preguntado. Escucha sin interrumpir. Y fíjate en qué cambia.
+
+Las relaciones inteligentes no son perfectas. Son relaciones donde conversamos.
+
+Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
+        <div class="row"><button class="btn small" id="copyScript" type="button">Copiar guion</button><button class="btn small" id="resetScript" type="button">Volver al ejemplo</button></div>
+      </div>
+      <div class="stats">
+        <div class="stat-row">
+          <div class="stat"><b id="stWords">0</b><span>palabras</span></div>
+          <div class="stat"><b id="stTime">0:00</b><span>duración aprox.</span></div>
+          <div class="stat"><b id="stLong">0</b><span>frase más larga</span></div>
+        </div>
+        <ul class="flags" id="flags"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="note"><b>Temas sensibles</b>La sexualidad y la violencia son el centro de tu trabajo. Las plataformas de video con IA revisan los guiones, y un lenguaje muy explícito puede hacer que marquen o rechacen un video. Con un encuadre educativo y clínico, como el que ya usas en televisión, no suele haber problema. Y como eres psicóloga, conviene avisar en el video o en la descripción que se trata de un avatar digital.</div>
+    <div class="checklist" data-group="video">
+      <label class="check"><input type="checkbox" id="video-generado"><div><strong>Generé mi primer video</strong><span>Menos de 60 segundos, con mi voz de ElevenLabs.</span></div></label>
+    </div>
+  </section>
+</template>
+
+<template id="s8">
+  <div class="lesson-head">
+    <div class="eyebrow">Sesión 8 · 15 min</div>
+    <h2>Diagnóstico y cierre</h2>
+    <p class="lede">Mira tu primer video con ojo clínico: ¿qué ves? Elige el síntoma y te digo qué hacer.</p>
+  </div>
+  <section>
+    <h3>¿Qué notas en tu video?</h3>
+    <div class="symptoms" id="symptoms"></div>
+    <div class="diag" id="diag"><p class="caption">Elige un síntoma para ver sus causas probables y qué hacer.</p></div>
+  </section>
+
+  <section>
+    <h3>Repaso rápido</h3>
+    <div class="quiz" id="quiz"></div>
+  </section>
+
+  <section>
+    <div class="note ok"><b>Siguiente nivel</b>Cuando domines lo básico, prueba a crear un segundo "look" (otro fondo u otra ropa) con una nueva toma, a traducir tus videos a otros idiomas con la voz de ElevenLabs, o a hacer una serie de cápsulas para la Fundación Relaciones Inteligentes.</div>
+  </section>
+</template>
+
+<script>
+(function(){
+  var SESSIONS=[
+    {id:"s1",t:"El mapa",d:"Qué vamos a construir"},
+    {id:"s2",t:"Prepara el set",d:"Luz, fondo, encuadre"},
+    {id:"s3",t:"Graba la toma",d:"Teleprompter incluido"},
+    {id:"s4",t:"Consentimiento",d:"Menos de 30 segundos"},
+    {id:"s5",t:"Crea el avatar",d:"Paso a paso en HeyGen"},
+    {id:"s6",t:"Conecta tu voz",d:"ElevenLabs → HeyGen"},
+    {id:"s7",t:"Tu primer video",d:"Guion y revisor"},
+    {id:"s8",t:"Diagnóstico",d:"Síntomas y repaso"}
+  ];
+  var KEY="coni-heygen-v1";
+  var state={done:{},checks:{},current:"s1"};
+  try{var saved=JSON.parse(localStorage.getItem(KEY)||"null");if(saved)state=Object.assign(state,saved);}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+
+  var nav=document.getElementById("nav"), main=document.getElementById("main");
+  var toastEl=document.getElementById("toast"), toastT;
+  function toast(msg){toastEl.textContent=msg;toastEl.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){toastEl.hidden=true},2200);}
+
+  function renderNav(){
+    nav.innerHTML="";
+    SESSIONS.forEach(function(s,i){
+      var b=document.createElement("button");
+      b.type="button";b.className="sess-btn"+(state.done[s.id]?" done":"");
+      b.setAttribute("aria-current",state.current===s.id?"true":"false");
+      b.innerHTML='<span class="n">'+(state.done[s.id]?"✓":(i+1))+'</span><span>'+s.t+'<small>'+s.d+'</small></span>';
+      b.addEventListener("click",function(){go(s.id)});
+      nav.appendChild(b);
+    });
+    var n=SESSIONS.filter(function(s){return state.done[s.id]}).length;
+    document.getElementById("doneCount").textContent=n;
+    document.getElementById("barFill").style.width=(n/SESSIONS.length*100)+"%";
+  }
+
+  function go(id,focus){
+    stopPrompter();
+    state.current=id;save();
+    var tpl=document.getElementById(id);
+    main.innerHTML='<article class="lesson"></article>';
+    var art=main.firstChild;
+    art.appendChild(tpl.content.cloneNode(true));
+    var idx=SESSIONS.findIndex(function(s){return s.id===id});
+    var foot=document.createElement("div");foot.className="lesson-foot";
+    var prev=idx>0?'<button class="btn" type="button" data-go="'+SESSIONS[idx-1].id+'">← '+SESSIONS[idx-1].t+'</button>':'<span></span>';
+    var doneLabel=state.done[id]?"Sesión completada ✓":"Marcar como completada";
+    var next=idx<SESSIONS.length-1?'<button class="btn primary" type="button" id="doneNext">'+(state.done[id]?"Siguiente: ":"Completar y seguir: ")+SESSIONS[idx+1].t+' →</button>':'<button class="btn primary" type="button" id="doneNext">'+doneLabel+'</button>';
+    foot.innerHTML=prev+next;
+    art.appendChild(foot);
+    foot.querySelectorAll("[data-go]").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.go,true)})});
+    document.getElementById("doneNext").addEventListener("click",function(){
+      state.done[id]=true;save();
+      if(idx<SESSIONS.length-1){go(SESSIONS[idx+1].id,true)}else{renderNav();toast("¡Terminaste el curso, Coni!");this.textContent="Sesión completada ✓";}
+    });
+    // checklists
+    art.querySelectorAll('.check input[type="checkbox"]').forEach(function(cb){
+      cb.checked=!!state.checks[cb.id];
+      cb.addEventListener("change",function(){state.checks[cb.id]=cb.checked;save();});
+    });
+    if(id==="s3")initPrompter();
+    if(id==="s7")initEditor();
+    if(id==="s8"){initDiag();initQuiz();}
+    renderNav();
+    try{history.replaceState(null,"","#"+id)}catch(e){}
+    if(focus){main.focus({preventScroll:true});window.scrollTo({top:0,behavior:"smooth"});}
+  }
+
+  /* Teleprompter */
+  var pRAF=null,pRunning=false,pStartTime=0,pElapsed=0,pLast=0,pDelay=null,pPos=0;
+  function fmt(s){s=Math.max(0,Math.floor(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
+  function stopPrompter(){pRunning=false;if(pRAF)cancelAnimationFrame(pRAF);pRAF=null;clearInterval(pDelay);pDelay=null;}
+  function initPrompter(){
+    var view=document.getElementById("pView"),timer=document.getElementById("pTimer"),start=document.getElementById("pStart"),speed=document.getElementById("pSpeed");
+    pElapsed=0;pPos=0;view.scrollTop=0;timer.textContent="0:00";timer.classList.remove("go");
+    function tick(ts){
+      if(!pRunning)return;
+      var dt=pLast?(ts-pLast)/1000:0;pLast=ts;
+      pElapsed+=dt;timer.textContent=fmt(pElapsed);
+      pPos+=dt*Number(speed.value);view.scrollTop=pPos;
+      if(pElapsed>=120)timer.classList.add("go");
+      pRAF=requestAnimationFrame(tick);
+    }
+    start.addEventListener("click",function(){
+      if(pRunning||pDelay){stopPrompter();start.textContent="Seguir";return;}
+      var n=3;timer.textContent="silencio "+n;start.textContent="Pausar";
+      pDelay=setInterval(function(){
+        n--;
+        if(n>0){timer.textContent="silencio "+n;return;}
+        clearInterval(pDelay);pDelay=null;pRunning=true;pLast=0;pPos=view.scrollTop;timer.textContent=fmt(pElapsed);
+        pRAF=requestAnimationFrame(tick);
+      },1000);
+    });
+    document.getElementById("pReset").addEventListener("click",function(){stopPrompter();pElapsed=0;pPos=0;view.scrollTop=0;timer.textContent="0:00";timer.classList.remove("go");start.textContent="Empezar";});
+    document.getElementById("pFull").addEventListener("click",function(){
+      var el=document.getElementById("prompter");
+      if(document.fullscreenElement){document.exitFullscreen().catch(function(){});return;}
+      if(el.requestFullscreen){el.requestFullscreen().catch(function(){toast("Este navegador no permite pantalla completa aquí")});}else{toast("Este navegador no permite pantalla completa aquí")}
+    });
+    view.addEventListener("wheel",function(){pPos=view.scrollTop},{passive:true});
+    view.addEventListener("touchmove",function(){pPos=view.scrollTop},{passive:true});
+  }
+
+  /* Revisor de guion */
+  var EXAMPLE=null;
+  function initEditor(){
+    var ta=document.getElementById("script");
+    if(EXAMPLE===null)EXAMPLE=ta.value;
+    try{var d=localStorage.getItem(KEY+"-script");if(d)ta.value=d;}catch(e){}
+    function analyze(){
+      var txt=ta.value;
+      try{localStorage.setItem(KEY+"-script",txt)}catch(e){}
+      var words=(txt.match(/[\wáéíóúüñÁÉÍÓÚÜÑ'’-]+/g)||[]);
+      var secs=words.length/150*60 + (txt.match(/\n\s*\n/g)||[]).length*0.6;
+      var sentences=txt.split(/[.!?¿¡…]+|\n+/).map(function(s){return s.trim()}).filter(Boolean);
+      var longest=0,longS="";
+      sentences.forEach(function(s){var n=(s.match(/\S+/g)||[]).length;if(n>longest){longest=n;longS=s}});
+      document.getElementById("stWords").textContent=words.length;
+      document.getElementById("stTime").textContent=fmt(Math.round(secs));
+      document.getElementById("stLong").textContent=longest;
+      var flags=[];
+      if(secs>60)flags.push(["Pasa del minuto. Para tu primer video, apunta a menos de 60 segundos.",0]);
+      if(longest>25)flags.push(["Frase larga ("+longest+" palabras): «"+longS.slice(0,60)+(longS.length>60?"…":"")+"». Pártela en dos.",0]);
+      var digits=txt.match(/\d+[\d.,%]*/g);
+      if(digits)flags.push(["Números en cifras ("+digits.slice(0,3).join(", ")+"). Escríbelos con letras para que la voz los lea como tú: «tres», «el cincuenta por ciento».",0]);
+      var sig=txt.match(/\b[A-ZÁÉÍÓÚÑ]{2,}\b/g);
+      if(sig)flags.push(["Mayúsculas o siglas ("+Array.from(new Set(sig)).slice(0,3).join(", ")+"). La voz puede deletrearlas; escribe cómo se dicen.",0]);
+      if(/[;()\/]/.test(txt))flags.push(["Hay punto y coma, paréntesis o barras. En voz alta funcionan mejor como frases separadas.",0]);
+      if(/\b(sexo|sexual|sexuales|violaci[oó]n|abuso|pene|vagina|orgasmo)\b/i.test(txt))flags.push(["Tema sensible detectado. Mantén el encuadre educativo y clínico para evitar que la plataforma lo marque.",0]);
+      if(!flags.length)flags.push(["Se lee bien para voz: frases cortas y sin cifras ni siglas.",1]);
+      document.getElementById("flags").innerHTML=flags.map(function(f){return '<li class="'+(f[1]?"good":"")+'">'+f[0].replace(/</g,"&lt;").replace(/&lt;(\/?)b>/g,"<$1b>")+'</li>'}).join("");
+    }
+    ta.addEventListener("input",analyze);analyze();
+    document.getElementById("copyScript").addEventListener("click",function(){
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(function(){toast("Guion copiado")},function(){ta.select();toast("Selecciona y copia con Ctrl+C / Cmd+C")});}
+      else{ta.select();toast("Selecciona y copia con Ctrl+C / Cmd+C")}
+    });
+    document.getElementById("resetScript").addEventListener("click",function(){ta.value=EXAMPLE;analyze();});
+  }
+
+  /* Diagnóstico */
+  var SYMPTOMS=[
+    {k:"La boca no calza con la voz",c:"La toma tenía pocas pausas con los labios cerrados, poca luz en la cara o el guion va muy rápido.",f:["Revisa la toma: ¿cierras los labios entre frases? Si no, vuelve a grabarla siguiendo la sesión 3.","Agrega pausas en el guion y acorta las frases.","Si puedes elegir, genera con el modelo más reciente (Avatar V)."]},
+    {k:"La voz suena robótica o con acento",c:"El modelo de voz no es multilingüe, o el guion tiene cifras, siglas o puntuación rara.",f:["En ElevenLabs, verifica que la voz use un modelo multilingüe (v2 o v3).","Pasa el guion por el revisor de la sesión 7.","Prueba la voz en ElevenLabs con la misma frase. Si allá suena bien y en HeyGen no, revisa qué voz y qué modelo elegiste en HeyGen."]},
+    {k:"Gestos exagerados o manos raras",c:"La toma tenía gestos grandes o manos que entraban y salían del cuadro.",f:["Graba una nueva toma con gestos suaves y las manos bajo el pecho.","Crea el avatar con la detección de gestos desactivada y compara."]},
+    {k:"Cara borrosa o deformada",c:"Resolución baja, zoom digital, cámara que se movió o distancia que cambió.",f:["Graba en 1080p o 4K con trípode y sin zoom.","Mantén la misma distancia a la cámara durante toda la toma.","Mejora la luz: el modelo necesita ver bien tu cara."]},
+    {k:"Falló la verificación",c:"El consentimiento y la toma no coinciden: otra luz, otra cámara, la cara de lado o un código mal leído.",f:["Graba el consentimiento en el mismo lugar, con la misma luz y la misma cámara.","Mira de frente y lee el código con calma.","Usa el código que te muestra HeyGen en ese momento, no uno anterior."]},
+    {k:"HeyGen no acepta mi API key",c:"A la llave le faltan permisos, se copió incompleta o fue revocada.",f:["En ElevenLabs, abre la llave (el lápiz) y activa Text to Speech y Voices.","Copia la llave completa, sin espacios al inicio ni al final.","Si tienes dudas, crea una llave nueva y borra la anterior."]},
+    {k:"Me rechazaron o marcaron el video",c:"Los filtros de moderación detectaron lenguaje que interpretaron como explícito.",f:["Reformula con lenguaje educativo y clínico, como en tus apariciones en televisión.","Evita términos gráficos en el guion y en el título.","Si crees que es un error, escribe al soporte de HeyGen explicando el propósito educativo."]}
+  ];
+  function initDiag(){
+    var wrap=document.getElementById("symptoms"),out=document.getElementById("diag");
+    SYMPTOMS.forEach(function(s,i){
+      var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=s.k;b.setAttribute("aria-pressed","false");
+      b.addEventListener("click",function(){
+        wrap.querySelectorAll(".chip").forEach(function(c){c.setAttribute("aria-pressed","false")});
+        b.setAttribute("aria-pressed","true");
+        out.innerHTML='<h4>'+s.k+'</h4><p><b>Causa probable:</b> '+s.c+'</p><ol>'+s.f.map(function(x){return"<li>"+x+"</li>"}).join("")+'</ol>';
+      });
+      wrap.appendChild(b);
+    });
+  }
+
+  /* Quiz */
+  var QUIZ=[
+    {q:"¿Cómo debe estar tu boca en las pausas de la toma?",o:["Entreabierta, lista para seguir","Cerrada y relajada","Con una sonrisa amplia"],a:1,e:"Los labios cerrados en reposo le marcan al modelo dónde empieza y termina cada frase."},
+    {q:"Te equivocaste a la mitad de la toma. ¿Qué haces?",o:["Corto y después uno los dos pedazos","Sigo hablando con naturalidad, o grabo todo de nuevo","Subo solo la mitad buena"],a:1,e:"La toma tiene que ser continua. Los cortes y las uniones confunden al modelo."},
+    {q:"¿Dónde va la API key de ElevenLabs?",o:["En el guion del video","En HeyGen: Voices → Integrate 3rd Party Voice","En la descripción del Reel"],a:1,e:"Solo se pega en HeyGen. Es una llave: no se comparte."},
+    {q:"Falló la verificación del consentimiento. ¿Qué pruebas primero?",o:["Volver a grabarlo con la misma luz y el mismo lugar que la toma","Cambiar de cuenta","Subir una foto en vez de video"],a:0,e:"HeyGen compara tu cara en ambos videos. Si cambia mucho la luz o la cámara, puede no reconocerte."},
+    {q:"Tu guion dice «el 70% de las parejas». ¿Qué mejoras?",o:["Nada, está perfecto","Escribirlo como «el setenta por ciento de las parejas»","Ponerlo en mayúsculas"],a:1,e:"Con los números escritos con letras, la voz los lee como tú los dirías."}
+  ];
+  function initQuiz(){
+    var q=document.getElementById("quiz");
+    QUIZ.forEach(function(item,qi){
+      var box=document.createElement("div");box.className="q";
+      box.innerHTML='<p>'+(qi+1)+'. '+item.q+'</p><div class="opts"></div><div class="feedback" aria-live="polite"></div>';
+      var opts=box.querySelector(".opts"),fb=box.querySelector(".feedback");
+      item.o.forEach(function(o,oi){
+        var b=document.createElement("button");b.type="button";b.className="opt";b.textContent=o;
+        b.addEventListener("click",function(){
+          opts.querySelectorAll(".opt").forEach(function(x){x.classList.remove("right","wrong")});
+          if(oi===item.a){b.classList.add("right");fb.textContent="Correcto. "+item.e;}
+          else{b.classList.add("wrong");fb.textContent="No exactamente. Inténtalo otra vez.";}
+        });
+        opts.appendChild(b);
+      });
+      q.appendChild(box);
+    });
+  }
+
+  var hash=(location.hash||"").slice(1);
+  go(SESSIONS.some(function(s){return s.id===hash})?hash:(state.current||"s1"));
+})();
+</script>
