@@ -1,5 +1,5 @@
 <title>Tu doble digital</title>
-<meta name="description" content="Curso interactivo para que Coni del Rosario cree su avatar personal en HeyGen con su voz de ElevenLabs.">
+<meta name="description" content="Curso interactivo para que Coni del Rosario cree su avatar personal en HeyGen con su voz de ElevenLabs y produzca contenido con Claude Code.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -89,7 +89,16 @@ main{min-width:0}
 .steps li{counter-increment:st;display:grid;grid-template-columns:36px 1fr;gap:14px;padding-block:14px;border-top:1px solid var(--line)}
 .steps li:first-child{border-top:0}
 .steps li::before{content:counter(st);width:32px;height:32px;border-radius:50%;background:var(--sunken);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:13px;color:var(--accent)}
-.steps li div{display:flex;flex-direction:column;gap:6px}
+.steps li>div{display:flex;flex-direction:column;gap:6px;min-width:0}
+
+/* Comandos y órdenes */
+.cmd{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--sunken);border:1px solid var(--line);border-radius:10px;padding:6px 6px 6px 14px;max-width:70ch}
+.cmd code{display:block;min-width:0;overflow-x:auto;white-space:nowrap;font-family:var(--mono);font-size:13.5px}
+.prose code{font-family:var(--mono);font-size:.88em;background:var(--sunken);border:1px solid var(--line);padding:1px 6px;border-radius:5px}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.mode{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.mode code{font-family:var(--mono);font-size:13.5px;color:var(--accent);overflow-wrap:anywhere}
+.mode span{font-size:14px;color:var(--muted)}
 
 /* Diagrama y encuadre */
 .figure{background:var(--sunken);border:1px solid var(--line);border-radius:12px;padding:16px;overflow-x:auto}
@@ -169,7 +178,7 @@ textarea{width:100%;min-height:260px;font:inherit;font-size:15.5px;line-height:1
     </div>
     <div class="progress" aria-live="polite">
       <div class="bar" aria-hidden="true"><i id="barFill"></i></div>
-      <span><b id="doneCount">0</b> de 8 sesiones</span>
+      <span><b id="doneCount">0</b> de <span id="totalCount">9</span> sesiones</span>
     </div>
   </header>
 
@@ -226,7 +235,8 @@ textarea{width:100%;min-height:260px;font:inherit;font-size:15.5px;line-height:1
         <li><b>Crear el avatar</b> en HeyGen (sesión 5).</li>
         <li><b>Conectar tu voz</b> de ElevenLabs (sesión 6).</li>
         <li><b>Primer video:</b> escribir y generar (sesión 7).</li>
-        <li><b>Revisar y corregir</b> (sesión 8).</li>
+        <li><b>Tu fábrica de contenido:</b> Claude Code produce los videos contigo (sesión 8).</li>
+        <li><b>Revisar y corregir</b> (sesión 9).</li>
       </ol>
       <p>Necesitas una cuenta de HeyGen con un plan que permita avatares personales, tu cuenta de ElevenLabs y un celular o cámara que grabe en 1080p.</p>
     </div>
@@ -382,7 +392,7 @@ textarea{width:100%;min-height:260px;font:inherit;font-size:15.5px;line-height:1
     </ol>
   </section>
   <section>
-    <div class="note"><b>Si HeyGen rechaza el video</b>Casi siempre es por la luz, porque hay otra persona en cuadro, porque el video tiene cortes o porque el consentimiento no coincide. Revisa la sesión 8.</div>
+    <div class="note"><b>Si HeyGen rechaza el video</b>Casi siempre es por la luz, porque hay otra persona en cuadro, porque el video tiene cortes o porque el consentimiento no coincide. Revisa la sesión 9.</div>
     <div class="checklist" data-group="avatar">
       <label class="check"><input type="checkbox" id="avatar-subido"><div><strong>Toma y consentimiento subidos</strong><span>El avatar quedó procesándose.</span></div></label>
       <label class="check"><input type="checkbox" id="avatar-listo"><div><strong>Mi avatar aparece en la biblioteca</strong><span>Ya lo puedes usar en un video.</span></div></label>
@@ -484,9 +494,137 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
   </section>
 </template>
 
+<template id="fabrica">
+  <div class="lesson-head">
+    <div class="eyebrow">Sesión 8 · 30 min la primera vez</div>
+    <h2>Tu fábrica de contenido</h2>
+    <p class="lede">Hasta aquí hiciste un video a mano. Ahora sumas a Claude Code: tú le das un tema, él escribe con tu tono, manda a grabar a tu avatar y te deja el video listo para revisar.</p>
+  </div>
+  <div class="analogy"><span class="tag">Analogía</span><p>Piensa en un canal de televisión. Claude Code es la <b>sala de control</b>: lee tu pauta, escribe el guion y da las órdenes. HeyGen es el <b>estudio</b>, donde está tu avatar. ElevenLabs es la <b>cabina de locución</b>, donde vive tu voz. Y hay dos semáforos que solo cambias tú: nada se graba sin tu sí y nada se publica sin que lo veas.</p></div>
+
+  <section>
+    <h3>Cómo se conectan las piezas</h3>
+    <div class="figure">
+      <svg viewBox="0 0 640 220" role="img" aria-label="Diagrama: tú das el tema, Claude Code escribe el guion, primer semáforo en que apruebas el guion, HeyGen graba tu avatar con tu voz de ElevenLabs, segundo semáforo en que ves el video, y tú revisas y publicas">
+        <g font-family="Hanken Grotesk, system-ui, sans-serif">
+          <rect x="10" y="30" width="118" height="72" rx="12" style="fill:var(--sunken);stroke:var(--line);stroke-width:2"/>
+          <text x="26" y="60" font-size="16" font-weight="700" style="fill:var(--ink)">Tú</text>
+          <text x="26" y="82" font-size="12.5" style="fill:var(--muted)">das el tema</text>
+
+          <rect x="150" y="30" width="146" height="72" rx="12" style="fill:var(--accent)"/>
+          <text x="166" y="60" font-size="16" font-weight="700" style="fill:var(--accent-ink)">Claude Code</text>
+          <text x="166" y="82" font-size="12.5" style="fill:var(--accent-ink)">escribe con tu tono</text>
+
+          <rect x="340" y="30" width="130" height="72" rx="12" style="fill:var(--surface);stroke:var(--accent);stroke-width:2"/>
+          <text x="356" y="60" font-size="16" font-weight="700" style="fill:var(--ink)">HeyGen</text>
+          <text x="356" y="82" font-size="12.5" style="fill:var(--muted)">graba tu avatar</text>
+
+          <rect x="514" y="30" width="116" height="72" rx="12" style="fill:var(--sunken);stroke:var(--line);stroke-width:2"/>
+          <text x="530" y="56" font-size="16" font-weight="700" style="fill:var(--ink)">Tú</text>
+          <text x="530" y="76" font-size="12.5" style="fill:var(--muted)">revisas y</text>
+          <text x="530" y="92" font-size="12.5" style="fill:var(--muted)">publicas</text>
+
+          <rect x="340" y="152" width="130" height="56" rx="12" style="fill:var(--ok-soft);stroke:var(--ok);stroke-width:2"/>
+          <text x="356" y="176" font-size="16" font-weight="700" style="fill:var(--ink)">ElevenLabs</text>
+          <text x="356" y="196" font-size="12.5" style="fill:var(--ok)">pone tu voz</text>
+
+          <line x1="128" y1="66" x2="143" y2="66" style="stroke:var(--muted);stroke-width:2"/>
+          <path d="M142 60 L150 66 L142 72 Z" style="fill:var(--muted)"/>
+          <line x1="296" y1="66" x2="333" y2="66" style="stroke:var(--muted);stroke-width:2"/>
+          <path d="M332 60 L340 66 L332 72 Z" style="fill:var(--muted)"/>
+          <line x1="470" y1="66" x2="507" y2="66" style="stroke:var(--muted);stroke-width:2"/>
+          <path d="M506 60 L514 66 L506 72 Z" style="fill:var(--muted)"/>
+          <line x1="405" y1="152" x2="405" y2="110" style="stroke:var(--ok);stroke-width:2"/>
+          <path d="M399 111 L405 103 L411 111 Z" style="fill:var(--ok)"/>
+
+          <circle cx="317" cy="66" r="12" style="fill:var(--accent);stroke:var(--surface);stroke-width:3"/>
+          <text x="317" y="71" font-size="13" font-weight="700" text-anchor="middle" style="fill:var(--accent-ink)">1</text>
+          <text x="317" y="126" font-size="12" text-anchor="middle" style="fill:var(--accent)">apruebas</text>
+          <text x="317" y="142" font-size="12" text-anchor="middle" style="fill:var(--accent)">el guion</text>
+
+          <circle cx="491" cy="66" r="12" style="fill:var(--accent);stroke:var(--surface);stroke-width:3"/>
+          <text x="491" y="71" font-size="13" font-weight="700" text-anchor="middle" style="fill:var(--accent-ink)">2</text>
+          <text x="491" y="126" font-size="12" text-anchor="middle" style="fill:var(--accent)">ves el video</text>
+          <text x="491" y="142" font-size="12" text-anchor="middle" style="fill:var(--accent)">antes de publicar</text>
+        </g>
+      </svg>
+    </div>
+    <p class="caption">Los círculos son los semáforos. En cada uno, Claude Code se detiene y espera tu respuesta.</p>
+  </section>
+
+  <section>
+    <h3>Antes de partir</h3>
+    <div class="prose">
+      <ul>
+        <li><b>Claude Code</b> instalado en tu computador, en la terminal o en la app de escritorio de Claude.</li>
+        <li><b>El proyecto "coniheygen"</b>, que te comparte tu equipo. Ahí viven tus reglas, tu ficha técnica y tus videos.</li>
+        <li><b>Créditos</b> en HeyGen y en ElevenLabs. Un reel de 45 segundos cuesta cerca de US$1,5 en HeyGen, más la voz.</li>
+      </ul>
+      <p>Si alguien de tu equipo te ayuda con la parte técnica, hagan juntos esta sesión la primera vez. Después, el día a día es solo conversar con Claude.</p>
+    </div>
+  </section>
+
+  <section>
+    <h3>Conecta Claude Code con HeyGen (una sola vez)</h3>
+    <p class="caption">Los comandos se escriben en la terminal, dentro de la carpeta del proyecto. Cada uno tiene su botón para copiar.</p>
+    <ol class="steps">
+      <li><div><b>Instala la herramienta de HeyGen.</b><div class="cmd"><code>curl -fsSL https://static.heygen.ai/cli/install.sh | bash</code><button class="btn small" type="button" data-copy>Copiar</button></div><p>Es el "cable" oficial por el que Claude le pide los videos a HeyGen. Funciona en Mac y Linux; en Windows, dentro de WSL.</p></div></li>
+      <li><div><b>Entra con tu cuenta de HeyGen.</b><div class="cmd"><code>heygen auth login</code><button class="btn small" type="button" data-copy>Copiar</button></div><p>Te pregunta cómo pagar: con una <b>API key</b>, que es un saldo aparte de pago por uso y lo más estable para trabajar con Claude, o con <b>tu plan</b> de HeyGen (planes Pro o Max), que usa los créditos que ya pagas.</p></div></li>
+      <li><div><b>Abre el proyecto con Claude Code.</b><div class="cmd"><code>claude</code><button class="btn small" type="button" data-copy>Copiar</button></div><p>Claude lee las reglas del proyecto. Si te ofrece conectar el servidor de HeyGen, puedes aceptar: sirve para preguntarle cosas a tu cuenta.</p></div></li>
+      <li><div><b>Completa tu ficha técnica.</b><p>Pídeselo a Claude: <i>"ayúdame a completar coni.config.json"</i>. Él busca tu avatar y tu voz. Piensa en tu avatar como un clóset: el <b>grupo</b> eres tú y cada <b>look</b> es una tenida. La ficha necesita el look.</p></div></li>
+      <li><div><b>Verifica que todo esté conectado.</b><p>Pídele a Claude: <i>"verifica la conexión con HeyGen"</i>. Cada punto sale con ✔ o ✘, y cada ✘ trae la instrucción para arreglarlo.</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h3>Tu día a día</h3>
+    <div class="prose"><p>Dentro de Claude Code escribes una de estas órdenes, o lo pides con tus palabras: <i>"hazme un reel sobre el deseo en parejas largas"</i>.</p></div>
+    <div class="modes">
+      <div class="mode"><code>/reel-coni celos en la pareja</code><span>Un video sobre ese tema.</span></div>
+      <div class="mode"><code>/reel-coni semana 3</code><span>Tres ideas de temas distintos, con los guiones para aprobar de una vez.</span></div>
+      <div class="mode"><code>/reel-coni render &lt;carpeta&gt;</code><span>Graba un guion que ya aprobaste.</span></div>
+    </div>
+    <div class="prose">
+      <p>Lo que hace Claude, en orden:</p>
+      <ol>
+        <li>Lee tu pauta editorial y revisa qué temas ya hiciste.</li>
+        <li>Escribe el guion y los textos para Instagram, TikTok y LinkedIn.</li>
+        <li><b>Te muestra el guion y espera tu sí.</b> Hasta aquí no gasta créditos.</li>
+        <li>Manda a grabar a tu avatar con tu voz, en vertical y con subtítulos.</li>
+        <li>Espera unos minutos y descarga el video.</li>
+        <li><b>Te lo entrega para que lo veas.</b> Publicarlo lo haces tú.</li>
+      </ol>
+    </div>
+    <div class="note ok"><b>El botón de grabar siempre lo aprietas tú.</b>Cada vez que Claude va a gastar créditos, te pide permiso en pantalla. Cuando ya confíes en el flujo, puedes darle permiso permanente desde ese mismo aviso.</div>
+  </section>
+
+  <section>
+    <h3>Tus reglas viajan con Claude</h3>
+    <div class="prose">
+      <p>El archivo <code>contenido/linea-editorial.md</code> es tu pauta permanente. Claude lo lee antes de cada guion:</p>
+      <ul>
+        <li>Tus cinco pilares: pareja, deseo, autoestima, género y límites, y bienestar emocional.</li>
+        <li>Tu tono: de tú, en español de Chile; primero validas y después propones algo concreto.</li>
+        <li>El cierre fijo: <i>"Soy Coni del Rosario. Este video lo hice con mi avatar digital."</i></li>
+        <li>Lo que nunca hace: diagnosticar, contar casos de pacientes o inventar cifras.</li>
+        <li>En temas de riesgo agrega las líneas de ayuda: Fono 1455 y *4141.</li>
+      </ul>
+      <p>Puedes editarlo cuando quieras, o pedirle a Claude que lo cambie: <i>"agrega un pilar sobre adolescencia"</i>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="checklist" data-group="fabrica">
+      <label class="check"><input type="checkbox" id="fab-cli"><div><strong>HeyGen conectado</strong><span>Instalé la herramienta de HeyGen y entré con mi cuenta.</span></div></label>
+      <label class="check"><input type="checkbox" id="fab-ficha"><div><strong>Todo en ✔</strong><span>La verificación no muestra ningún ✘.</span></div></label>
+      <label class="check"><input type="checkbox" id="fab-reel"><div><strong>Mi primer reel con Claude</strong><span>Aprobé el guion y vi el video antes de publicarlo.</span></div></label>
+    </div>
+  </section>
+</template>
+
 <template id="s8">
   <div class="lesson-head">
-    <div class="eyebrow">Sesión 8 · 15 min</div>
+    <div class="eyebrow">Sesión 9 · 15 min</div>
     <h2>Diagnóstico y cierre</h2>
     <p class="lede">Mira tu primer video con ojo clínico: ¿qué ves? Elige el síntoma y te digo qué hacer.</p>
   </div>
@@ -516,6 +654,7 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
     {id:"s5",t:"Crea el avatar",d:"Paso a paso en HeyGen"},
     {id:"s6",t:"Conecta tu voz",d:"ElevenLabs → HeyGen"},
     {id:"s7",t:"Tu primer video",d:"Guion y revisor"},
+    {id:"fabrica",t:"Tu fábrica",d:"Claude Code + HeyGen"},
     {id:"s8",t:"Diagnóstico",d:"Síntomas y repaso"}
   ];
   var KEY="coni-heygen-v1";
@@ -526,6 +665,10 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
   var nav=document.getElementById("nav"), main=document.getElementById("main");
   var toastEl=document.getElementById("toast"), toastT;
   function toast(msg){toastEl.textContent=msg;toastEl.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){toastEl.hidden=true},2200);}
+  function copyText(txt){
+    var fail=function(){toast("No se pudo copiar. Selecciónalo y copia con Ctrl+C / Cmd+C")};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){toast("Copiado")},fail);}else{fail()}
+  }
 
   function renderNav(){
     nav.innerHTML="";
@@ -539,6 +682,7 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
     });
     var n=SESSIONS.filter(function(s){return state.done[s.id]}).length;
     document.getElementById("doneCount").textContent=n;
+    document.getElementById("totalCount").textContent=SESSIONS.length;
     document.getElementById("barFill").style.width=(n/SESSIONS.length*100)+"%";
   }
 
@@ -565,6 +709,9 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
     art.querySelectorAll('.check input[type="checkbox"]').forEach(function(cb){
       cb.checked=!!state.checks[cb.id];
       cb.addEventListener("change",function(){state.checks[cb.id]=cb.checked;save();});
+    });
+    art.querySelectorAll("[data-copy]").forEach(function(b){
+      b.addEventListener("click",function(){copyText(b.previousElementSibling.textContent)});
     });
     if(id==="s3")initPrompter();
     if(id==="s7")initEditor();
@@ -654,6 +801,7 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
     {k:"Cara borrosa o deformada",c:"Resolución baja, zoom digital, cámara que se movió o distancia que cambió.",f:["Graba en 1080p o 4K con trípode y sin zoom.","Mantén la misma distancia a la cámara durante toda la toma.","Mejora la luz: el modelo necesita ver bien tu cara."]},
     {k:"Falló la verificación",c:"El consentimiento y la toma no coinciden: otra luz, otra cámara, la cara de lado o un código mal leído.",f:["Graba el consentimiento en el mismo lugar, con la misma luz y la misma cámara.","Mira de frente y lee el código con calma.","Usa el código que te muestra HeyGen en ese momento, no uno anterior."]},
     {k:"HeyGen no acepta mi API key",c:"A la llave le faltan permisos, se copió incompleta o fue revocada.",f:["En ElevenLabs, abre la llave (el lápiz) y activa Text to Speech y Voices.","Copia la llave completa, sin espacios al inicio ni al final.","Si tienes dudas, crea una llave nueva y borra la anterior."]},
+    {k:"Claude no encuentra mi avatar o mi voz",c:"En la ficha técnica quedó el ID del grupo en vez del look, o tu voz de ElevenLabs no aparece en la herramienta de HeyGen.",f:["Pídele a Claude: «ayúdame a completar coni.config.json» y elige un look, no el grupo.","Pídele: «verifica la conexión con HeyGen» y sigue la instrucción de cada ✘.","Si tu voz no aparece, pídele que cambie a la Ruta B: el audio se genera directo en ElevenLabs."]},
     {k:"Me rechazaron o marcaron el video",c:"Los filtros de moderación detectaron lenguaje que interpretaron como explícito.",f:["Reformula con lenguaje educativo y clínico, como en tus apariciones en televisión.","Evita términos gráficos en el guion y en el título.","Si crees que es un error, escribe al soporte de HeyGen explicando el propósito educativo."]}
   ];
   function initDiag(){
@@ -675,7 +823,8 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
     {q:"Te equivocaste a la mitad de la toma. ¿Qué haces?",o:["Corto y después uno los dos pedazos","Sigo hablando con naturalidad, o grabo todo de nuevo","Subo solo la mitad buena"],a:1,e:"La toma tiene que ser continua. Los cortes y las uniones confunden al modelo."},
     {q:"¿Dónde va la API key de ElevenLabs?",o:["En el guion del video","En HeyGen: Voices → Integrate 3rd Party Voice","En la descripción del Reel"],a:1,e:"Solo se pega en HeyGen. Es una llave: no se comparte."},
     {q:"Falló la verificación del consentimiento. ¿Qué pruebas primero?",o:["Volver a grabarlo con la misma luz y el mismo lugar que la toma","Cambiar de cuenta","Subir una foto en vez de video"],a:0,e:"HeyGen compara tu cara en ambos videos. Si cambia mucho la luz o la cámara, puede no reconocerte."},
-    {q:"Tu guion dice «el 70% de las parejas». ¿Qué mejoras?",o:["Nada, está perfecto","Escribirlo como «el setenta por ciento de las parejas»","Ponerlo en mayúsculas"],a:1,e:"Con los números escritos con letras, la voz los lee como tú los dirías."}
+    {q:"Tu guion dice «el 70% de las parejas». ¿Qué mejoras?",o:["Nada, está perfecto","Escribirlo como «el setenta por ciento de las parejas»","Ponerlo en mayúsculas"],a:1,e:"Con los números escritos con letras, la voz los lee como tú los dirías."},
+    {q:"Claude Code terminó tu reel. ¿Qué pasa ahora?",o:["Lo publica solo en tus redes","Te lo entrega para que lo veas y lo publiques tú","Lo borra si no respondes"],a:1,e:"Claude nunca publica. El segundo semáforo es tuyo: ves el video y decides."}
   ];
   function initQuiz(){
     var q=document.getElementById("quiz");
