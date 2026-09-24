@@ -1,2 +1,12 @@
 public/
 .vercel/
+
+# Llaves
+.env
+
+# Archivos pesados que genera la producción (quedan en HeyGen y en tu disco)
+contenido/**/*.mp4
+contenido/**/*.webm
+contenido/**/*.mp3
+
+__pycache__/

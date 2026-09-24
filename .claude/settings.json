@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 scripts/coni.py verificar)",
+      "Bash(python3 scripts/coni.py pedido:*)",
+      "Bash(python3 scripts/coni.py esperar:*)",
+      "Bash(heygen auth status)",
+      "Bash(heygen avatar list:*)",
+      "Bash(heygen avatar looks list:*)",
+      "Bash(heygen avatar looks get:*)",
+      "Bash(heygen voice list:*)",
+      "Bash(heygen video get:*)",
+      "Bash(heygen video list:*)",
+      "Bash(heygen video download:*)"
+    ],
+    "deny": [
+      "Read(./.env)"
+    ]
+  }
+}
