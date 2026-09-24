@@ -3,8 +3,9 @@
 Con esta guía, Claude Code escribe guiones con la voz de Coni, manda a grabar a su avatar de
 HeyGen con su voz de ElevenLabs y deja cada video listo para revisar. Tú das el tema y apruebas.
 
-> Requisito: haber terminado el curso (`curso-heygen.html`). El gemelo digital de Coni tiene que
-> existir en HeyGen y su voz de ElevenLabs tiene que estar importada ahí.
+> Requisito: haber terminado las sesiones 1 a 7 del curso (`curso-heygen.html`). El gemelo digital
+> de Coni tiene que existir en HeyGen y su voz de ElevenLabs tiene que estar importada ahí.
+> La sesión 8 del curso es la versión corta de esta guía, escrita para Coni.
 
 ## La idea en una imagen
 

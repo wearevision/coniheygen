@@ -4,7 +4,8 @@ Coni del Rosario es psicóloga clínica y sexóloga chilena (perfil en `perfil-c
 Este repo tiene dos partes:
 
 1. **El curso** (`curso-heygen.html`, publicado en Vercel con `scripts/build.sh`): enseña a Coni a
-   crear su gemelo digital en HeyGen y a conectar su voz de ElevenLabs.
+   crear su gemelo digital en HeyGen, a conectar su voz de ElevenLabs y, en la sesión 8, a producir
+   contenido con Claude Code.
 2. **La producción de contenido**: Claude Code escribe guiones con la voz de Coni y los manda a
    grabar a su avatar en HeyGen. Se usa con la skill `/reel-coni`.
 
