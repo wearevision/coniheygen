@@ -6,8 +6,9 @@ Este repo tiene dos partes:
 1. **El curso** (`curso-heygen.html`, publicado en Vercel con `scripts/build.sh`): enseña a Coni a
    crear su gemelo digital en HeyGen, a conectar su voz de ElevenLabs y, en la sesión 8, a producir
    contenido con Claude Code.
-2. **La producción de contenido**: Claude Code escribe guiones con la voz de Coni y los manda a
-   grabar a su avatar en HeyGen. Se usa con la skill `/reel-coni`.
+2. **La producción de contenido**: Claude Code escribe guiones con la voz de Coni, los manda a
+   grabar a su avatar en HeyGen y, con aprobación, los programa en Instagram vía Metricool.
+   Se usa con la skill `/reel-coni`.
 
 ## Mapa de la producción
 
@@ -23,8 +24,12 @@ Este repo tiene dos partes:
 
 ## Reglas
 
-- **Dos puertas humanas.** No se gastan créditos sin un guion aprobado, y ningún video se publica
-  sin que una persona lo vea. Claude nunca publica en redes.
+- **Dos puertas humanas.** No se gastan créditos sin un guion aprobado, y ningún video sale al aire
+  sin que una persona lo vea.
+- **Instagram solo por Metricool y solo con aprobación.** Claude programa un Reel en Metricool
+  únicamente después de que una persona apruebe de forma explícita el video y la fecha en la
+  conversación. No publica de inmediato, no programa en otras redes sin que se lo pidan y nunca
+  responde comentarios ni mensajes.
 - **Voz de Coni, no la tuya.** Todo guion sigue `contenido/linea-editorial.md`: tú, español de Chile,
   encuadre educativo, sin diagnósticos, sin anécdotas de pacientes y sin datos inventados.
 - **Transparencia.** Cada video y cada publicación dicen que es un avatar digital.

@@ -3,6 +3,10 @@
     "heygen": {
       "type": "http",
       "url": "https://mcp.heygen.com/mcp/v1/"
+    },
+    "metricool": {
+      "type": "http",
+      "url": "https://mcp.metricool.ai/mcp"
     }
   }
 }

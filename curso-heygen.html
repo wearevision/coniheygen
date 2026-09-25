@@ -505,7 +505,7 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
   <section>
     <h3>Cómo se conectan las piezas</h3>
     <div class="figure">
-      <svg viewBox="0 0 640 220" role="img" aria-label="Diagrama: tú das el tema, Claude Code escribe el guion, primer semáforo en que apruebas el guion, HeyGen graba tu avatar con tu voz de ElevenLabs, segundo semáforo en que ves el video, y tú revisas y publicas">
+      <svg viewBox="0 0 640 220" role="img" aria-label="Diagrama: tú das el tema, Claude Code escribe el guion, primer semáforo en que apruebas el guion, HeyGen graba tu avatar con tu voz de ElevenLabs, segundo semáforo en que ves el video y apruebas la fecha, y Claude lo programa en Instagram">
         <g font-family="Hanken Grotesk, system-ui, sans-serif">
           <rect x="10" y="30" width="118" height="72" rx="12" style="fill:var(--sunken);stroke:var(--line);stroke-width:2"/>
           <text x="26" y="60" font-size="16" font-weight="700" style="fill:var(--ink)">Tú</text>
@@ -522,7 +522,7 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
           <rect x="514" y="30" width="116" height="72" rx="12" style="fill:var(--sunken);stroke:var(--line);stroke-width:2"/>
           <text x="530" y="56" font-size="16" font-weight="700" style="fill:var(--ink)">Tú</text>
           <text x="530" y="76" font-size="12.5" style="fill:var(--muted)">revisas y</text>
-          <text x="530" y="92" font-size="12.5" style="fill:var(--muted)">publicas</text>
+          <text x="530" y="92" font-size="12.5" style="fill:var(--muted)">apruebas</text>
 
           <rect x="340" y="152" width="130" height="56" rx="12" style="fill:var(--ok-soft);stroke:var(--ok);stroke-width:2"/>
           <text x="356" y="176" font-size="16" font-weight="700" style="fill:var(--ink)">ElevenLabs</text>
@@ -559,6 +559,7 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
         <li><b>Claude Code</b> instalado en tu computador, en la terminal o en la app de escritorio de Claude.</li>
         <li><b>El proyecto "coniheygen"</b>, que te comparte tu equipo. Ahí viven tus reglas, tu ficha técnica y tus videos.</li>
         <li><b>Créditos</b> en HeyGen y en ElevenLabs. Un reel de 45 segundos cuesta cerca de US$1,5 en HeyGen, más la voz.</li>
+        <li><b>Metricool</b> (opcional), para que Claude programe tus Reels en Instagram. Tu Instagram tiene que ser cuenta profesional.</li>
       </ul>
       <p>Si alguien de tu equipo te ayuda con la parte técnica, hagan juntos esta sesión la primera vez. Después, el día a día es solo conversar con Claude.</p>
     </div>
@@ -583,6 +584,8 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
       <div class="mode"><code>/reel-coni celos en la pareja</code><span>Un video sobre ese tema.</span></div>
       <div class="mode"><code>/reel-coni semana 3</code><span>Tres ideas de temas distintos, con los guiones para aprobar de una vez.</span></div>
       <div class="mode"><code>/reel-coni render &lt;carpeta&gt;</code><span>Graba un guion que ya aprobaste.</span></div>
+      <div class="mode"><code>/reel-coni programar &lt;carpeta&gt;</code><span>Programa en Instagram un video que ya viste. Te pide la fecha.</span></div>
+      <div class="mode"><code>/reel-coni informe</code><span>Los números de la semana y temas para la siguiente.</span></div>
     </div>
     <div class="prose">
       <p>Lo que hace Claude, en orden:</p>
@@ -592,10 +595,10 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
         <li><b>Te muestra el guion y espera tu sí.</b> Hasta aquí no gasta créditos.</li>
         <li>Manda a grabar a tu avatar con tu voz, en vertical y con subtítulos.</li>
         <li>Espera unos minutos y descarga el video.</li>
-        <li><b>Te lo entrega para que lo veas.</b> Publicarlo lo haces tú.</li>
+        <li><b>Te lo entrega para que lo veas.</b> Si lo apruebas y le das una fecha, lo programa en Instagram. También puedes publicarlo tú.</li>
       </ol>
     </div>
-    <div class="note ok"><b>El botón de grabar siempre lo aprietas tú.</b>Cada vez que Claude va a gastar créditos, te pide permiso en pantalla. Cuando ya confíes en el flujo, puedes darle permiso permanente desde ese mismo aviso.</div>
+    <div class="note ok"><b>El botón de grabar siempre lo aprietas tú.</b>Cada vez que Claude va a gastar créditos o a programar en Instagram, te pide permiso en pantalla. Cuando ya confíes en el flujo, puedes darle permiso permanente para grabar. Para programar, mejor que siempre te pregunte.</div>
   </section>
 
   <section>
@@ -824,7 +827,7 @@ Soy Coni del Rosario, y nos vemos en el próximo video.</textarea>
     {q:"¿Dónde va la API key de ElevenLabs?",o:["En el guion del video","En HeyGen: Voices → Integrate 3rd Party Voice","En la descripción del Reel"],a:1,e:"Solo se pega en HeyGen. Es una llave: no se comparte."},
     {q:"Falló la verificación del consentimiento. ¿Qué pruebas primero?",o:["Volver a grabarlo con la misma luz y el mismo lugar que la toma","Cambiar de cuenta","Subir una foto en vez de video"],a:0,e:"HeyGen compara tu cara en ambos videos. Si cambia mucho la luz o la cámara, puede no reconocerte."},
     {q:"Tu guion dice «el 70% de las parejas». ¿Qué mejoras?",o:["Nada, está perfecto","Escribirlo como «el setenta por ciento de las parejas»","Ponerlo en mayúsculas"],a:1,e:"Con los números escritos con letras, la voz los lee como tú los dirías."},
-    {q:"Claude Code terminó tu reel. ¿Qué pasa ahora?",o:["Lo publica solo en tus redes","Te lo entrega para que lo veas y lo publiques tú","Lo borra si no respondes"],a:1,e:"Claude nunca publica. El segundo semáforo es tuyo: ves el video y decides."}
+    {q:"Claude Code terminó tu reel. ¿Qué pasa ahora?",o:["Lo publica solo en tus redes","Te lo entrega para que lo veas; solo con tu sí y una fecha lo programa","Lo borra si no respondes"],a:1,e:"Claude nunca publica sin tu aprobación. El segundo semáforo es tuyo: ves el video y decides si sale y cuándo."}
   ];
   function initQuiz(){
     var q=document.getElementById("quiz");

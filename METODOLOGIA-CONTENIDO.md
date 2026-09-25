@@ -4,9 +4,10 @@ Cómo funciona, semana a semana, la producción de contenido de Coni con Claude 
 ElevenLabs e Instagram. Aquí se explica **el proceso**: quién hace qué, cuándo y con qué control.
 La instalación paso a paso está en [`GUIA-CLAUDE-CODE-HEYGEN.md`](GUIA-CLAUDE-CODE-HEYGEN.md).
 
-> **Estado a septiembre de 2026:** el repo ya cubre desde la idea hasta el video listo (nivel 1 de
-> la escalera, más abajo). La conexión con Instagram está **diseñada, pero no activada**. La
-> sección [Instagram](#instagram-se-puede-integrar) explica cómo activarla.
+> **Estado a septiembre de 2026:** el repo cubre desde la idea hasta el Reel programado en
+> Instagram. La conexión vía Metricool está **activada en el repo** (paso 9 y modo `informe` de
+> `/reel-coni`). Para usarla falta autorizarla con la cuenta de Coni: pasos 1 a 4 de la sección
+> [Instagram](#instagram-se-puede-integrar).
 
 ## La idea en una imagen
 
@@ -106,7 +107,7 @@ No hay que automatizarlo todo el primer día. Cada peldaño se sube cuando el an
 |---|---|---|---|---|
 | 0 | Manual | Nada | Todo, en HeyGen (el curso) | Aprendido |
 | 1 | Producción asistida | Escribe, graba y entrega el video | Aprueba y publica a mano | **Hoy** |
-| 2 | Programación asistida | Además programa en Metricool | Aprueba cada video y su fecha | Siguiente |
+| 2 | Programación asistida | Además programa en Metricool | Aprueba cada video y su fecha | Listo; falta autorizar Metricool |
 | 3 | Semana en lote | Planifica, produce y programa la semana, y trae el informe | Aprueba en dos momentos por semana | Meta |
 | 4 | Piloto automático | Publica sin preguntar | Nada | **No recomendado** |
 
@@ -131,8 +132,8 @@ Cada video vive en su carpeta `contenido/AAAA-MM-DD-tema/`, y su `ficha.md` dice
 
 `idea` → `guion por aprobar` → `aprobado` → `en render` → `listo para revisar` → `programado` → `publicado`
 
-Los dos estados nuevos (`programado` y `publicado`) se activan con la conexión a Instagram. Hasta
-entonces, el recorrido termina en `listo para revisar`.
+Claude pasa la ficha a `programado` cuando deja el Reel en Metricool, y a `publicado` en el informe
+semanal, cuando la fecha ya pasó. Si alguien publica a mano, marca `publicado` directamente.
 
 ## Métricas
 
@@ -169,15 +170,16 @@ Claude publique contenido orgánico (su conector oficial es solo para anuncios),
 1. **Cuenta profesional.** El Instagram de Coni tiene que ser cuenta de empresa o de creador
    (Configuración → Tipo de cuenta y herramientas). Es un requisito de Meta para publicar por API.
 2. **Metricool.** Crea la marca de Coni en Metricool y conecta su Instagram desde ahí.
-3. **Conector en Claude Code**, una sola vez:
+3. **Conector en Claude Code.** Ya viene configurado en `.mcp.json`. Al abrir el proyecto, Claude
+   Code ofrece activarlo. Si no lo hace, escribe `/mcp`, elige **metricool** y autoriza en el navegador
+   con la cuenta de Metricool (OAuth, sin llaves que copiar). Para tenerlo en todos tus proyectos:
 
    ```bash
-   claude mcp add --transport http metricool https://mcp.metricool.ai/mcp
+   claude mcp add --transport http -s user metricool https://mcp.metricool.ai/mcp
    ```
-
-   Al primer uso se abre el navegador para autorizar con la cuenta de Metricool (OAuth, sin llaves que copiar).
 4. **Prueba.** Pídele a Claude *"¿qué cuentas tengo conectadas en Metricool?"* y después *"¿cuál es
-   el mejor horario para publicar en Instagram esta semana?"*.
+   el mejor horario para publicar en Instagram esta semana?"*. La primera vez que programe, Claude
+   te pedirá elegir la marca de Coni y anotará su ID en `coni.config.json`.
 
 ### Qué cambia en el flujo
 
@@ -186,6 +188,8 @@ Claude publique contenido orgánico (su conector oficial es solo para anuncios),
 - Metricool devuelve un link al calendario. Claude lo anota en la ficha y la pasa a `programado`.
 - Hasta la hora de publicación, el Reel se puede revisar, editar o borrar desde el calendario de
   Metricool. Es una red de seguridad adicional, no un reemplazo del semáforo 2.
+- Órdenes nuevas: `/reel-coni programar <carpeta>` programa un video que ya revisaste, y
+  `/reel-coni informe` trae el informe semanal con los números de Instagram.
 
 ### Detalles a cuidar
 
@@ -200,11 +204,15 @@ Claude publique contenido orgánico (su conector oficial es solo para anuncios),
 - **Límite de publicaciones.** Meta limita las publicaciones por API a unas decenas por cuenta cada
   24 horas. Con tres reels a la semana no es un problema.
 
-### Qué no cambia
+### La regla de oro
 
-La regla de oro sigue igual: **Claude no publica nada sin una aprobación explícita del video y de
-la fecha**. Activar Instagram también implica actualizar esa regla en `CLAUDE.md` y agregar el paso
-"programar" a la skill `/reel-coni`.
+**Claude programa solo con una aprobación explícita del video y de la fecha.** Está escrito en
+`CLAUDE.md` y en la skill:
+
+- Un "ok" al video no basta: tiene que haber día y hora.
+- Nunca publica de inmediato; deja al menos 15 minutos de margen.
+- No programa en otras redes sin que se lo pidan y no responde comentarios.
+- Crear o editar una publicación pide permiso en pantalla. Leer estadísticas no.
 
 ## Riesgos y controles
 
@@ -222,8 +230,8 @@ la fecha**. Activar Instagram también implica actualizar esa regla en `CLAUDE.m
 
 - **Semana 1 · Nivel 1.** Completar `coni.config.json`, tener `verificar` en verde y producir el
   primer reel (el guion del taller ya está aprobado). Publicarlo a mano.
-- **Semana 2 · Nivel 2.** Pasar Instagram a cuenta profesional, conectar Metricool, activar el paso
-  "programar" y programar el segundo reel desde Claude.
+- **Semana 2 · Nivel 2.** Pasar Instagram a cuenta profesional, crear la marca en Metricool,
+  autorizar el conector y programar el segundo reel desde Claude.
 - **Semanas 3 y 4 · Nivel 3.** Primera semana en lote (`/reel-coni semana 3`), primer informe del
   lunes y revisión del ritmo con Coni.
 - **Semana 8.** Primer ciclo de aprendizaje: ajustar la línea editorial con los números.
