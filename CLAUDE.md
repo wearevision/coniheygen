@@ -18,7 +18,8 @@ Este repo tiene dos partes:
 | IDs del avatar y de la voz, formato del video | `coni.config.json` |
 | Verificar conexión, armar pedidos, generar voz, esperar renders | `scripts/coni.py` |
 | Un video = una carpeta | `contenido/AAAA-MM-DD-tema/` |
-| Guía para humanos | `GUIA-CLAUDE-CODE-HEYGEN.md` |
+| Guía de instalación | `GUIA-CLAUDE-CODE-HEYGEN.md` |
+| Metodología: roles, ritmo semanal, métricas e Instagram | `METODOLOGIA-CONTENIDO.md` |
 
 ## Reglas
 

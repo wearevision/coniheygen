@@ -211,10 +211,10 @@ contenido/
 
 ## Lo que viene: publicar sin salir de Claude Code
 
-Este repo deja cada video listo para publicar, pero no lo publica. El siguiente paso posible es
-conectar una herramienta de programación de publicaciones que tenga API (por ejemplo, la API de
-Instagram de Meta para cuentas profesionales, o un programador como Buffer o Metricool). Aun así,
-conviene mantener el segundo semáforo: una persona aprueba antes de que salga.
+Este repo deja cada video listo para publicar, pero no lo publica. El siguiente paso es conectar
+Instagram a través de Metricool, siempre con el segundo semáforo: una persona aprueba antes de que
+salga. El proceso completo, con roles, ritmo semanal, métricas y la conexión con Instagram, está en
+[`METODOLOGIA-CONTENIDO.md`](METODOLOGIA-CONTENIDO.md).
 
 ## Fuentes
 
