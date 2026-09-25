@@ -27,7 +27,8 @@ Entre las salas hay dos cables:
 Y hay dos semáforos que siempre maneja una persona:
 
 1. **Aprobar el guion** antes de gastar créditos.
-2. **Ver el video** antes de publicarlo. Claude nunca publica.
+2. **Ver el video y aprobar la fecha** antes de que salga. Solo con ese sí, Claude lo programa en
+   Instagram vía Metricool.
 
 ```mermaid
 flowchart LR
@@ -37,8 +38,8 @@ flowchart LR
   C -- sí --> D["Voz de Coni<br/>(ElevenLabs)"]
   D --> E["HeyGen graba al avatar<br/>9:16 + subtítulos"]
   E --> F["video.mp4 + texto<br/>para cada red"]
-  F --> G{"Semáforo 2<br/>¿se publica?"}
-  G -- sí --> H["Una persona publica a mano"]
+  F --> G{"Semáforo 2<br/>¿apruebas video y fecha?"}
+  G -- sí --> H["Claude lo programa en Instagram<br/>(o lo publicas a mano)"]
 ```
 
 ## Antes de partir
@@ -157,6 +158,8 @@ Dentro de Claude Code:
 | `/reel-coni celos en parejas largas` | Un video sobre ese tema |
 | `/reel-coni semana 3` | Tres ideas de pilares distintos, con los tres guiones para aprobar de una vez |
 | `/reel-coni render contenido/2026-09-29-celos` | Graba un guion que ya aprobaste |
+| `/reel-coni programar contenido/2026-09-29-celos` | Programa en Instagram un video que ya viste (pide la fecha) |
+| `/reel-coni informe` | Informe semanal con los números de Instagram y temas propuestos |
 
 También funciona pedirlo con tus palabras: *"hazme un reel de Coni sobre el deseo en parejas largas"*.
 
@@ -168,11 +171,13 @@ Qué hace Claude, en orden:
 4. Genera la voz (Ruta B) y arma el pedido para HeyGen.
 5. Manda a grabar y espera. Un reel suele tardar algunos minutos.
 6. Descarga `video.mp4` y, si corresponde, `video-subtitulado.mp4`.
-7. **Te entrega el video para que lo veas.** Publicar lo haces tú.
+7. **Te entrega el video y pregunta si lo apruebas y para qué fecha.** Con tu sí, lo programa en
+   Instagram vía Metricool. También puedes publicarlo a mano.
 
-Cada comando que gasta créditos (`heygen video create`, `heygen asset create`, `coni.py voz`)
-te pide permiso en pantalla: el botón de grabar siempre lo aprieta una persona. Cuando ya confíes
-en el flujo, puedes aprobarlos de forma permanente desde ese mismo aviso.
+Cada comando que gasta créditos o publica (`heygen video create`, `heygen asset create`,
+`coni.py voz` y la programación en Metricool) te pide permiso en pantalla: el botón de grabar
+siempre lo aprieta una persona. Cuando ya confíes en el flujo, puedes aprobar para siempre los de
+HeyGen desde ese mismo aviso. La programación en Metricool conviene dejarla siempre con aviso.
 
 ## Dónde queda cada cosa
 
@@ -209,12 +214,17 @@ contenido/
 | `esperar` dice "sigue en proceso" | Es normal. Claude vuelve a correrlo. |
 | Se acabaron los créditos de ElevenLabs | La voz deja de funcionar en HeyGen hasta recargar. |
 
-## Lo que viene: publicar sin salir de Claude Code
+## Paso 6 · (Opcional) Conecta Instagram con Metricool
 
-Este repo deja cada video listo para publicar, pero no lo publica. El siguiente paso posible es
-conectar una herramienta de programación de publicaciones que tenga API (por ejemplo, la API de
-Instagram de Meta para cuentas profesionales, o un programador como Buffer o Metricool). Aun así,
-conviene mantener el segundo semáforo: una persona aprueba antes de que salga.
+Con esto, Claude programa los Reels en Instagram después del segundo semáforo.
+
+1. El Instagram de Coni debe ser **cuenta profesional** (de empresa o de creador).
+2. Crea la marca de Coni en **Metricool** y conecta su Instagram desde ahí.
+3. En Claude Code, `/mcp` → **metricool** → autoriza en el navegador. El conector ya viene en `.mcp.json`.
+4. Prueba: *"¿qué cuentas tengo conectadas en Metricool?"*.
+
+El proceso completo, con roles, ritmo semanal, métricas y detalles de Instagram, está en
+[`METODOLOGIA-CONTENIDO.md`](METODOLOGIA-CONTENIDO.md).
 
 ## Fuentes
 

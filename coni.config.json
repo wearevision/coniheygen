@@ -28,6 +28,12 @@
     "_motor": "null usa Avatar IV (por defecto). \"avatar_v\" da más calidad si tu look lo soporta; verificar te lo dice."
   },
 
+  "metricool": {
+    "marca_id": "PENDIENTE",
+    "_marca_id": "ID de la marca de Coni en Metricool (blog_id). Claude lo obtiene con get_brand_settings la primera vez que programa.",
+    "zona_horaria": "America/Santiago"
+  },
+
   "elevenlabs": {
     "voice_id": "PENDIENTE",
     "_voice_id": "Solo Ruta B. ID de la voz en ElevenLabs (Voices → tu voz → ID).",

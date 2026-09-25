@@ -190,6 +190,11 @@ def cmd_verificar(_args):
             except urllib.error.URLError as e:
                 linea(False, "Conexión con ElevenLabs", str(e.reason))
 
+    marca = cfg.get("metricool", {}).get("marca_id")
+    print("\nInstagram (Metricool)")
+    print(f"  · marca_id: {marca}" if not pendiente(marca) else
+          "  · marca_id pendiente. Solo hace falta para programar; Claude lo completa con get_brand_settings.")
+
     print("\nTodo listo." if fallas == 0 else f"\n{fallas} punto(s) por resolver.")
     return 0 if fallas == 0 else 1
 

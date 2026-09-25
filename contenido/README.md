@@ -15,8 +15,10 @@ Cada video es una carpeta con fecha y tema, por ejemplo `2026-09-29-celos/`:
 
 Estados de la ficha, en orden:
 
-`idea` → `guion por aprobar` → `aprobado` → `en render` → `listo para revisar` → `publicado`
+`idea` → `guion por aprobar` → `aprobado` → `en render` → `listo para revisar` → `programado` → `publicado`
 
-Solo una persona cambia un video de `listo para revisar` a `publicado`, y lo publica a mano.
+Un video pasa de `listo para revisar` a `programado` solo cuando una persona aprueba el video y la
+fecha. Entonces Claude lo programa en Instagram vía Metricool. También se puede publicar a mano.
+Los informes semanales quedan en `informes/`.
 
 `linea-editorial.md` es el brief permanente: pilares, tono y reglas. El agente lo lee antes de cada guion.
