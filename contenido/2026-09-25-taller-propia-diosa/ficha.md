@@ -7,7 +7,7 @@
 - **Gancho:** "¿Te cuesta sentirte la protagonista de tu propia vida?"
 - **Acción propuesta:** entrar al link del taller en el perfil.
 - **Duración estimada:** 124 palabras · ~0:53.
-- **estado:** guion por aprobar
+- **estado:** aprobado (2026-09-25)
 
 ## Por confirmar antes de publicar
 
